@@ -1,17 +1,4 @@
-# University of Ibadan — Information Technology & Media Services (ITeMS)
-## Digital Asset Management System (ICT Equipment Lifecycle Register)
 
-> **Scope note (matches the project document, Chapters 1–3):** this system is a
-> digital information system for managing the **physical ICT assets** of a
-> university IT service organization (desktops, laptops, network devices,
-> printers, UPS units, projectors) and the electronic records used to manage
-> them. It is **not** a media-asset repository for photographs or video.
-
-**Status: design-stage prototype with fictitious DEMO data.**
-No deployment outcomes or user-testing results are claimed. All seed records
-are clearly marked `DEMO` and must never be mistaken for official ITeMS inventory.
-
----
 
 ## 1. What was built
 
