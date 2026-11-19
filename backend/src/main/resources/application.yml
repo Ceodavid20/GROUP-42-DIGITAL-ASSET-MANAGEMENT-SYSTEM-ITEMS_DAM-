@@ -1,0 +1,58 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+spring:
+  application:
+    name: ui-items-dam-backend
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+      enabled: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/items_dam_db
+    username: items_admin
+    password: "UiDamSecure2024!"
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000
+      connection-timeout: 30000
+      max-lifetime: 600000
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+
+# University of Ibadan ITeMS DAM Application Properties
+dam:
+  storage:
+    upload-dir: ./data/storage/assets
+    thumbnail-dir: ./data/storage/thumbnails
+    preview-dir: ./data/storage/previews
+  security:
+    jwt-secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    jwt-expiration-ms: 86400000 # 24 hours
+  watermark:
+    enabled: true
+    institution-name: "UNIVERSITY OF IBADAN - ITeMS ARCHIVES"
+    font-size: 24
+    opacity: 0.35
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    ng.edu.ui.items.dam: INFO
+    org.springframework.security: WARN

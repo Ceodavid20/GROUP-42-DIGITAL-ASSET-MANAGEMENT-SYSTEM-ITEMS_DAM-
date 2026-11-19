@@ -1,0 +1,26 @@
+spring:
+  config:
+    activate:
+      on-profile: postgres
+  datasource:
+    url: jdbc:postgresql://localhost:5432/items_dam_db
+    username: items_admin
+    password: UiDamSecure2024!
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      # update bootstraps the schema on first run; switch to validate
+      # (like prod) once the schema is managed by migrations.
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+dam:
+  storage:
+    upload-dir: ./data/storage/assets
+  security:
+    jwt-secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    jwt-expiration-ms: 86400000

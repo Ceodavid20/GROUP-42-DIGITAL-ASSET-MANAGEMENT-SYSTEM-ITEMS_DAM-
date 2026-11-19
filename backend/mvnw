@@ -1,0 +1,21 @@
+#!/bin/sh
+# ----------------------------------------------------------------------------
+# Maven Start Up Batch script
+# ----------------------------------------------------------------------------
+
+export JAVA_HOME="${JAVA_HOME:-/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home}"
+
+BASE_DIR=$(dirname "$0")
+WRAPPER_JAR="$BASE_DIR/.mvn/wrapper/maven-wrapper.jar"
+
+if [ -f "$WRAPPER_JAR" ]; then
+    java -jar "$WRAPPER_JAR" "$@"
+else
+    # Fallback to standard maven if installed or run with java directly
+    if command -v mvn >/dev/null 2>&1; then
+        exec mvn "$@"
+    else
+        echo "Maven wrapper jar not present. Using installed Java 21."
+        echo "To build: install maven or run via IDE / Docker."
+    fi
+fi

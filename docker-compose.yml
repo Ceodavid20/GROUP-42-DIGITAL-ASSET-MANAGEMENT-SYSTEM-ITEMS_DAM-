@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  # University of Ibadan ITeMS DAM PostgreSQL Database
+  items-db:
+    image: postgres:16-alpine
+    container_name: ui-items-dam-postgres
+    environment:
+      POSTGRES_DB: items_dam_db
+      POSTGRES_USER: items_admin
+      POSTGRES_PASSWORD: UiDamSecure2024!
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - items-net
+
+  # MinIO Object Store for Academic Media & High-Res Masters
+  items-object-store:
+    image: minio/minio:RELEASE.2024-04-18T19-09-19Z
+    container_name: ui-items-dam-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: items_storage_admin
+      MINIO_ROOT_PASSWORD: UiStorageSecure2024!
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    restart: unless-stopped
+    networks:
+      - items-net
+
+  # Spring Boot 3 Backend API
+  items-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ui-items-dam-backend
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: items-db
+      DB_PORT: 5432
+      DB_NAME: items_dam_db
+      DB_USER: items_admin
+      DB_PASSWORD: UiDamSecure2024!
+      JWT_SECRET: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    ports:
+      - "8080:8080"
+    depends_on:
+      - items-db
+    restart: unless-stopped
+    networks:
+      - items-net
+
+  # Angular 18 Enterprise Frontend
+  items-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ui-items-dam-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - items-backend
+    restart: unless-stopped
+    networks:
+      - items-net
+
+volumes:
+  postgres_data:
+  minio_data:
+
+networks:
+  items-net:
+    driver: bridge
